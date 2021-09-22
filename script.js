@@ -11,7 +11,9 @@ const multiply = function (a, b) {
 }
 
 const divide = function (a, b) {
-    return a/b;
+    if (b == 0) {alert("dividing by zero lmao");}
+    else {return a/b;}
+
 }
 
 const operate = function (operator, a, b) {
@@ -35,7 +37,7 @@ const getDisplayContainer = function () {
     return display;
 }
 
-const setDisplay = function (display, newDisplay) {
+const fillDisplay = function (display, newDisplay) {
     display.appendChild(newDisplay);
 }
 
@@ -51,7 +53,15 @@ const createDisplay = function (string) {
     return display;
 }
 
+const changeDisplay = function (displayValue) {
+    existDisplay = getDisplayContainer();
+    clearDisplay(existDisplay);
+    newDisplay = createDisplay(displayValue);
+    fillDisplay(display, newDisplay);
+}
+
 displayValue = ' ';
+tempNumString = '';
 let a = 0;
 let b = 0;
 let op = 0;
@@ -88,8 +98,10 @@ buttons.forEach( (button) => {
         
         if (num) {
             
-            displayValue += currentInput;
-            
+            tempNumString += currentInput;
+            a = parseFloat(tempNumString);
+            displayValue = tempNumString;
+            changeDisplay(displayValue);
         }
 
         else if (clr) {
@@ -102,25 +114,39 @@ buttons.forEach( (button) => {
             opr = false;
             eql = false;
             displayValue = '';
-            display = getDisplayContainer();
-            clearDisplay(display);
-            newDisplay = createDisplay(displayValue);
-            setDisplay(display, newDisplay);
+            changeDisplay(displayValue);
+            tempNumString = '';
 
         }
 
         else if (opr) {
-            a = parseFloat(displayValue);
-            op = operator;
-            displayValue = ' ';
+            
+            if (b) {
+                result = operate(op, b, a);
+                op = operator;
+                displayValue = result;
+                b = result;
+                
+            }
+            else {
+                b = parseFloat(a); 
+                op = operator;
+                displayValue = a;
+            }
             decimal = false;
+            tempNumString = '';
+            changeDisplay(Math.round(displayValue*10000)/10000);
+            
         }
 
         else if (eql) {
-            b = parseFloat(displayValue);
-            result = operate(op, a, b);
+            result = operate(op, b, a);
             displayValue = result;
+            a = result;
+            b = 0;
+            changeDisplay(Math.round(displayValue*10000)/10000);
             decimal = false;
+            
             
             
             }
@@ -130,12 +156,8 @@ buttons.forEach( (button) => {
         else {console.log("ErrorError")}
 
         
-
-        display = getDisplayContainer();
-        clearDisplay(display);
-        newDisplay = createDisplay(displayValue);
-
-        setDisplay(display, newDisplay);
+        /* Get Existing container, clear it, create new container, and fill it.*/
+        
         
 
         }
