@@ -70,6 +70,7 @@ let num = false;
 let clr = false;
 let opr = false;
 let eql = false;
+let equalled = false;
 const buttons = document.querySelectorAll('.btn');
 buttons.forEach( (button) => {
     button.addEventListener("click", () => {
@@ -97,11 +98,13 @@ buttons.forEach( (button) => {
         else {"eror"}
         
         if (num) {
-            
-            tempNumString += currentInput;
-            a = parseFloat(tempNumString);
-            displayValue = tempNumString;
-            changeDisplay(displayValue);
+            if (!equalled) {
+                equalled = false;
+                tempNumString += currentInput;
+                a = parseFloat(tempNumString);
+                displayValue = tempNumString;
+                changeDisplay(displayValue);
+            } else {}
         }
 
         else if (clr) {
@@ -113,6 +116,7 @@ buttons.forEach( (button) => {
             clr = false;
             opr = false;
             eql = false;
+            equalled = false;
             displayValue = '';
             changeDisplay(displayValue);
             tempNumString = '';
@@ -121,6 +125,7 @@ buttons.forEach( (button) => {
 
         else if (opr) {
             
+            equalled = false;
             if (b) {
                 result = operate(op, b, a);
                 op = operator;
@@ -140,12 +145,15 @@ buttons.forEach( (button) => {
         }
 
         else if (eql) {
-            result = operate(op, b, a);
-            displayValue = result;
-            a = result;
-            b = 0;
-            changeDisplay(Math.round(displayValue*10000)/10000);
-            decimal = false;
+            if (!equalled) {
+                result = operate(op, b, a);
+                displayValue = result;
+                a = result;
+                b = 0;
+                changeDisplay(Math.round(displayValue*10000)/10000);
+                decimal = false;
+                equalled = true;
+            } else {}
             
             
             
