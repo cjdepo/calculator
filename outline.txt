@@ -1,0 +1,30 @@
+
+
+When a number or period is clicked:
+    Add to end of display.
+
+When an operator is clicked:
+    let a = displayValue;
+    reset displayValue;
+    let op = operator;
+
+When equal is clicked: 
+    let b = displayValue;
+    let result = a op b;
+
+When clear is clicked:
+
+
+
+
+
+
+
+    Load prevValue;
+    
+    If prevValue is undefined or a number or a period, add it to end;
+    If prevValue is operator, let a = prevValue; reset prevValue;
+    If prevValue is equal, diplay a opeartor b.
+
+
+     
